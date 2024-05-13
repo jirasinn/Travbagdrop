@@ -107,8 +107,8 @@ if (isset($_POST["submit"])) {
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = 'tls';
 
-    $mail->Username = '63010912564@msu.ac.th';
-    $mail->Password = 'aaaa094276';
+    $mail->Username = '***********@msu.ac.th';
+    $mail->Password = '*********';
 
     $mail->setFrom('63010912564@msu.ac.th', 'OTP Verification');
     $mail->addAddress($_POST["mk_email"]);
