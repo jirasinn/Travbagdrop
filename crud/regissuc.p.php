@@ -110,7 +110,7 @@ if (isset($_POST["submit"])) {
     $mail->Username = '***********@msu.ac.th';
     $mail->Password = '*********';
 
-    $mail->setFrom('63010912564@msu.ac.th', 'OTP Verification');
+    $mail->setFrom('***********@msu.ac.th', 'OTP Verification');
     $mail->addAddress($_POST["mk_email"]);
 
     $mail->isHTML(true);
