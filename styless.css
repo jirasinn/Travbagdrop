@@ -1,0 +1,204 @@
+
+h2 {
+  color: #DAED01;
+}
+
+.btn.custom-button {
+  padding: 10px 20px; /* ปรับขนาด padding ให้เหมาะสม */
+  font-size: 16px; /* ปรับขนาดของตัวอักษร */
+  border-radius: 5px; /* ให้ขอบของปุ่มมน */
+  height: 40px; /* คงความสูงของปุ่ม */
+  display: flex; /* ใช้ flexbox ในการจัดวาง */
+  justify-content: center; /* จัดให้ข้อความอยู่ตรงกลางแนวนอน */
+  align-items: center; /* จัดให้ข้อความอยู่ตรงกลางแนวตั้ง */
+  white-space: nowrap; /* ป้องกันข้อความถูก wrap */
+  background-color: transparent; /* ทำให้พื้นหลังโปร่งแสง */
+  color: white; /* ตั้งค่าสีของตัวอักษรเป็นสีขาว */
+  border: 2px solid white; /* ตั้งค่าขอบของปุ่มเป็นสีขาว */
+  margin: 2px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+
+/* สำหรับปุ่มที่มีสถานะโฮเวอร์ */
+.btn.custom-button:hover {
+  opacity: 0.8; /* ทำให้ปุ่มมีความโปร่งใสเล็กน้อยเมื่อโฮเวอร์ */
+}
+
+/*  */
+
+/* buttom */
+.contact-section {
+  background: linear-gradient(283.57deg, rgba(64, 42, 120, 0.91) 17.61%, #192364 47.88%, #141B4B 80.02%);
+  color: white;
+  padding: 40px;
+  text-align: left; /* เปลี่ยนเป็นซ้าย */
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  margin-top: 5%;
+  margin-bottom: -5%;
+}
+
+.social-icons ul {
+  list-style: none;
+  padding: 5px;
+  margin-left: -1%;
+  display: flex;
+  justify-content: flex-start; /* เปลี่ยนเป็นซ้าย */
+  gap: 10px;
+}
+
+.social-icons li a {
+  margin-right: 10px; /* ลดระยะห่างระหว่างลิงค์และข้อความ */
+}
+
+.social-icons li img {
+  width: 35px; /* ปรับขนาดรูปให้เล็กลง */
+}
+
+.social-icons li span {
+  margin-left: 5px; /* ปรับระยะห่างระหว่างข้อความและรูป */
+}
+
+/* End buttom */
+
+/*  */
+.contact-section1 {
+    background-color: #12132B;
+    color: white;
+    padding: 50px;
+    text-align: right;
+    width: 100%;
+    position: relative; /* ต้องเปลี่ยนเป็น relative */
+    justify-content: space-around;
+    z-index: 1; /* กำหนดชั้นของ .contact-section */
+}
+
+/*  */
+.circle1 {
+    width: 200px; /* กำหนดความกว้างของวงกลม */
+    height: 200px; /* กำหนดความสูงของวงกลม */
+    border-radius: 50%; /* ทำให้เป็นวงกลม */
+    overflow: hidden; /* ตัดรูปที่เกินขอบของวงกลม */
+    background-color: yellow; /* กำหนดสีเหลืองให้กับวงกลม */
+    display: flex; /* ทำให้รูปอยู่กึ่งกลาง */
+    justify-content: center; /* จัดให้รูปอยู่กึ่งกลางแนวนอน */
+    align-items: center; /* จัดให้รูปอยู่กึ่งกลางแนวตั้ง */
+}
+
+html{
+    font-size: calc(60% + 0.8vmin);
+    
+}
+
+/* regis partner */
+.slide-bg {
+  background-color: #121139;
+  position: relative;
+  top: 10;
+  left: 0;
+  width: 80%;
+  height: 100%;
+  overflow-y: auto; /* เพื่อให้มีการเลื่อนเนื้อหาเมื่อมีเนื้อหามากเกินขนาด */
+}
+
+.slide-bg {
+  display: flex;
+  justify-content: center; /* จัดให้เนื้อหาอยู่กึ่งกลางตามแนวนอน */
+}
+
+.slide-bg > .d-flex {
+  flex: 1; /* ทำให้ทั้งสอง div มีขนาดเท่ากัน */
+}
+
+/* partner_home */
+.slide-bg2 {
+  background-color: #121139;
+  position: relative;
+  top: 10;
+  left: 0;
+  width: 80%;
+  height: 120%;
+  overflow-y: auto; /* เพื่อให้มีการเลื่อนเนื้อหาเมื่อมีเนื้อหามากเกินขนาด */
+}
+
+.slide-bg {
+  display: flex;
+  justify-content: center; /* จัดให้เนื้อหาอยู่กึ่งกลางตามแนวนอน */
+}
+
+.slide-bg > .d-flex {
+  flex: 1; /* ทำให้ทั้งสอง div มีขนาดเท่ากัน */
+}
+
+/* admin */
+.slide-bg3 {
+  background-color: #121139;
+  position: relative;
+  top: 10;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto; /* เพื่อให้มีการเลื่อนเนื้อหาเมื่อมีเนื้อหามากเกินขนาด */
+}
+
+.slide-bg {
+  display: flex;
+  justify-content: center; /* จัดให้เนื้อหาอยู่กึ่งกลางตามแนวนอน */
+}
+
+.slide-bg > .d-flex {
+  flex: 1; /* ทำให้ทั้งสอง div มีขนาดเท่ากัน */
+}
+/* open  */
+.card-open {
+background-color: #121139;
+color: #F7F41F;
+border-radius: 10px;
+margin: 1rem 0rem; /* เพิ่ม margin-top เป็น 2rem */
+margin-left: 885px;
+}
+
+/* noti  */
+.card-noti {
+  background-color: #121139;
+  color: #F7F41F;
+  border-radius: 10px;
+  margin: 4rem 2rem; /* เพิ่ม margin-top เป็น 2rem */
+  margin-left: -45px;
+}
+
+#notifications {
+  margin: 1rem 0;
+}
+
+.notification {
+  background-color: #f2f2f2;
+  border: 10px solid #121139;
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin-top: -74px; /* ขยับขึ้นมา */
+  margin-left: -45px; /* ชิดขวาสุด */
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.notification .time {
+  font-size: 0.8rem;
+  color: #121139;
+  margin-bottom: 0.2rem;
+}
+
+.notification .name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+  flex: 1;
+}
+
+.notification .status {
+  font-size: 0.9rem;
+  color: #4caf50;
+  margin-left: 220px;
+}
