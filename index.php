@@ -253,8 +253,14 @@ require_once("libs/connect.class.php")
         // clear
         elseif ($page == 'clear_cart' || isset($_GET["clear_cart"]))
             require_once("crud/clear_cart.page.php");
+        // login
         elseif ($page == 'login' || isset($_GET["login"]))
             require_once("pages/login.page.php");
+        elseif ($page == 'login_admin' || isset($_GET["login_admin"]))
+            require_once("pages/login_admin.page.php");
+            elseif ($page == 'login_partner' || isset($_GET["login_partner"]))
+            require_once("pages/login_partner.page.php");
+
         elseif ($page == 'logout' || isset($_GET["logout"]))
             require_once("pages/logout.page.php");
         // map
@@ -269,7 +275,8 @@ require_once("libs/connect.class.php")
     ?>
 
     <!-- buttom -->
-    <?php if (!isset($_GET['page']) || ($_GET['page'] !== 'partner_home' && $_GET['page'] !== 'register.p' && $_GET['page'] !== 'map' && $_GET['page'] !== 'admin')) : ?>
+    <?php if (!isset($_GET['page']) || ($_GET['page'] !== 'partner_home' && $_GET['page'] !== 'register.p' && $_GET['page'] !== 'login_partner' 
+    && $_GET['page'] !== 'login_admin' && $_GET['page'] !== 'map' && $_GET['page'] !== 'admin')) : ?>
 
         <div class="contact-section">
             <h4 class="text9">ศูนย์ช่วยเหลือ</h4>
