@@ -16,8 +16,8 @@ if (isset($_POST["return_bag"])) {
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = 'tls';
 
-    $mail->Username = '*******@msu.ac.th';
-    $mail->Password = '******';
+    $mail->Username = '63010912564@msu.ac.th';
+    $mail->Password = 'aaaa094276';
 
     $mail->setFrom('63010912564@msu.ac.th', 'OTP Verification');
     $mail->addAddress($_POST["m_email"]);

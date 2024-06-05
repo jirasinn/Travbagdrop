@@ -11,6 +11,7 @@ if (isset($_POST["submit"])) {
 
     $mk_name = $_POST['mk_name'];
     $mk_code = $_POST['mk_code'];
+    $province = $_POST['province'];
     $location = $_POST['location'];
     $latitude = $_POST['latitude'];
     $longitude = $_POST['longitude'];
@@ -49,6 +50,9 @@ if (isset($_POST["submit"])) {
     }
     if (empty($mk_code)) {
         $errorMsg .= 'กรุณากรอกหมายเลขสถานประกอบการ<br>';
+    }
+    if (empty($province)) {
+        $errorMsg .= 'กรุณากรอกเลือกจังหวัดของท่าน<br>';
     }
     if (empty($location)) {
         $errorMsg .= 'กรุณากรอกที่อยู่สถานประกอบการ<br>';
@@ -107,10 +111,10 @@ if (isset($_POST["submit"])) {
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = 'tls';
 
-    $mail->Username = '***********@msu.ac.th';
-    $mail->Password = '*********';
+    $mail->Username = '63010912564@msu.ac.th';
+    $mail->Password = 'zhob haik cpnr joqq';
 
-    $mail->setFrom('***********@msu.ac.th', 'OTP Verification');
+    $mail->setFrom('63010912564@msu.ac.th', 'OTP Verification');
     $mail->addAddress($_POST["mk_email"]);
 
     $mail->isHTML(true);
@@ -158,14 +162,14 @@ if (isset($_POST["submit"])) {
                 if (move_uploaded_file($_FILES["fileD"]["tmp_name"], $targetFilePathD) && move_uploaded_file($_FILES["fileS"]["tmp_name"], $targetFilePathS) && move_uploaded_file($_FILES["fileM"]["tmp_name"], $targetFilePathM)) {
                     $hashed_password = password_hash($mk_password1, PASSWORD_DEFAULT);
 
-                    $sqlInsertMarket = "INSERT INTO market (mk_name, mk_code, location, latitude, longitude, mk_phone, mk_fname1, mk_lname1, mk_phone1, mk_fname2, mk_lname2, mk_phone2, mk_email, mk_password, doc_img, store_img, mk_img , `urole`, status) 
-                                    VALUES ('$mk_name','$mk_code','$location','$latitude', '$longitude', '$mk_phone', '$mk_fname1', '$mk_lname1', '$mk_phone1', '$mk_fname2', '$mk_lname2', '$mk_phone2', '$mk_email', '$hashed_password', '$fileD', '$fileS', '$fileM', '$urole', '$status')";
+                    $sqlInsertMarket = "INSERT INTO market (mk_name, mk_code, province, location, latitude, longitude, mk_phone, mk_fname1, mk_lname1, mk_phone1, mk_fname2, mk_lname2, mk_phone2, mk_email, mk_password, doc_img, store_img, mk_img , `urole`, status) 
+                                    VALUES ('$mk_name','$mk_code','$province','$location','$latitude', '$longitude', '$mk_phone', '$mk_fname1', '$mk_lname1', '$mk_phone1', '$mk_fname2', '$mk_lname2', '$mk_phone2', '$mk_email', '$hashed_password', '$fileD', '$fileS', '$fileM', '$urole', '$status')";
                 }
                 if (mysqli_query($conn, $sqlInsertMarket)) {
-                    // echo "<script>";
-                    // echo "alert('สมัครเป็นร้านค้าสำเร็จ');";
-                    // echo "window.location='../?page=login';";
-                    // echo "</script>";
+                    echo "<script>";
+                    echo "alert('สมัครเป็นร้านค้าสำเร็จ');";
+                    echo "window.location='../?page=login_partner';";
+                    echo "</script>";
                 } else {
                     // กรณีเกิดข้อผิดพลาดในการบันทึกข้อมูล
                     $_SESSION['error'] = 'เกิดข้อผิดพลาดในการบันทึกข้อมูล';
