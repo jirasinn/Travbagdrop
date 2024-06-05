@@ -24,10 +24,10 @@
         <form method="post" id="send-otp"  action="crud/regissuc.p.php" target="iframe_target"
             enctype="multipart/form-data">
 
-            <label for="mk_name">ชื่อสถานประกอบการณ์</label><br>
-            <input type="text" id="mk_name" name="mk_name" placeholder="หมายเลขสถานประกอบการณ์" required><br>
+            <label for="mk_name">ชื่อสถานประกอบการ</label><br>
+            <input type="text" id="mk_name" name="mk_name" placeholder="ชื่อสถานประกอบการณ์" required><br>
 
-            <label for="mk_code">หมายเลขสถานประกอบการณ์</label><br>
+            <label for="mk_code">หมายเลขสถานประกอบการ</label><br>
             <input type="text" id="mk_code" name="mk_code" placeholder="หมายเลขสถานประกอบการณ์" required><br>
 
             <div class="form-row">
@@ -38,9 +38,29 @@
                 <span id="file-label"></span>
             </div>
             <br>
+
+            <!-- จังหวัด-->
+            <label for="province">จังหวัด</label><br>
+           
+            <select name="province" id="province" class="rounded-button" required>
+                    <option value="">เลือกจังหวัด</option>
+                    <?php
+                    $db = new ConnectDb();
+                    $conn = $db->getConn();
+
+                    $sql = "SELECT * FROM thai_provinces";
+                    $result = mysqli_query($conn, $sql);
+
+                    // วนลูปแสดงตัวเลือกคณะ
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<option value='" . $row['id'] . "'>" . $row['name_th'] . "</option>";
+                    }
+                    // ปิดการเชื่อมต่อฐานข้อมูล
+                    mysqli_close($conn);
+                    ?>
+                </select><br>
             <!-- map -->
             <label for="location">ที่อยู่สถานที่ประกอบการ</label><br>
-
             <input type="text" id="location" name="location" placeholder="ที่อยู่สถานที่ประกอบการ" required><br>
 
             <input type="hidden" name="latitude" id="latitude" value="">
@@ -51,7 +71,6 @@
             </a>
             <!--  -->
             <div id="message"></div>
-
             <!--  -->
             <script>
                 var latitudeInput = document.getElementById('latitude');
@@ -415,6 +434,7 @@
         font-weight: bold;
     }
 
+    #province,
     input[type="text"],
     input[type="email"],
     input[type="password"],

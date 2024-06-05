@@ -150,7 +150,7 @@ $mk_name = $_SESSION['bagdrop_member_name'];
                     <div style="height: 1px; background-color: white; margin: 10px 0;"></div>
                     <!-- เพิ่ม ID ให้กับแต่ละ nav-link -->
                     <li>
-                        <a href="#" class="nav-link text-white" onclick="showContent('logout')" id="logout-link">
+                        <a href="crud/logout.php" class="nav-link text-white" onclick="showContent('logout')" id="logout-link">
                             <svg class="bi pe-none me-2" width="16" height="16">
                                 <use xlink:href="#people-circle"></use>
                             </svg>
@@ -592,7 +592,7 @@ $mk_name = $_SESSION['bagdrop_member_name'];
 
                         <label style="font-weight: 600; font-size: 18px;" for="order_num">ค้นหาจากหมายเลขออเดอร์ *</label><br>
                         <input type="text" class="text1" id="order_num" name="order_num" placeholder="เลือกหมายเลขออเดอร์">
-                        <button type="submit" name="all-order" value="all-order" onclick="setButtonName('all-order')" class="card-search col-2 text-center p-3" style="margin-left: 120%; margin-top: -10%; display: flex;">
+                        <button type="submit"  id="all-order" name="all-order" value="all-order" onclick="setButtonName('all-order')" class="card-search col-2 text-center p-3" style="margin-left: 100%; margin-top: -10%; display: flex;">
                             <b>ดูรายการฝากทั้งหมด</b>
                         </button>
                         <label style="font-weight: 600; font-size: 18px;" for="email">ค้นหาจาก E-mail</label><br>
@@ -912,175 +912,130 @@ $mk_name = $_SESSION['bagdrop_member_name'];
         <div id="returnBag_btn" style="display: none;"></div>
         <!--end Returnbag for each button -->
 
-        <!-- report -->
-        <?php
-        // ตรวจสอบว่ามีการส่งคำร้องข้อมูลหรือไม่
-        if (isset($_GET['report'])) {
-            // รับค่าปีและเดือนจากฟอร์ม
-            $startYear = $_GET['start_year'];
-            $startMonth = $_GET['start_month'];
-            $endMonth = $_GET['end_month'];
+       <!-- report -->
+       <?php
+// ตรวจสอบว่ามีการส่งคำร้องข้อมูลหรือไม่
+if (isset($_GET['report'])) {
+    // รับค่าเริ่มต้นและสิ้นสุดจากฟอร์ม
+    $startDate = $_GET['start_date'];
+    $endDate = $_GET['end_date'];
 
-            $db = new ConnectDb();
-            $conn = $db->getConn();
-            $sql = "SELECT COUNT(bag_id) AS total_orders, SUM(total_price) AS total_price
+    $db = new ConnectDb();
+    $conn = $db->getConn();
+    
+    // ตรวจสอบรูปแบบวันที่
+    $startDate = date('Y-m-d', strtotime($startDate));
+    $endDate = date('Y-m-d', strtotime($endDate));
+    
+    $sql = "SELECT COUNT(bag_id) AS total_orders, SUM(total_price) AS total_price
             FROM bagreserv
             WHERE mk_id = '$mk_id'
             AND status != 'รอดำเนินการ'
-            AND MONTH(curr_timestamp) >= '$startMonth'
-            AND MONTH(curr_timestamp) <= '$endMonth'
-            AND YEAR(curr_timestamp) = '$startYear'";
+            AND curr_timestamp BETWEEN '$startDate' AND '$endDate'";
 
-            // ดำเนินการ query กับฐานข้อมูล
-            $result = mysqli_query($conn, $sql);
+    // ดำเนินการ query กับฐานข้อมูล
+    $result = mysqli_query($conn, $sql);
 
-            // ตรวจสอบว่า query สำเร็จหรือไม่
-            if ($result) {
-                // ดึงข้อมูลจากผลลัพธ์ query
-                $row = mysqli_fetch_assoc($result);
-                $sumorder = $row['total_orders'];
-                $sumprice = $row['total_price'];
-            } else {
-                // หาก query ไม่สำเร็จ
-                // สามารถแสดงข้อความผิดพลาดได้ตามต้องการ
-            }
-        }
-        ?>
-        <!--  -->
-        <div id="report" style="display: none;">
-            <a href=""><img src="images/leftarrow.png" style="width:40px;height:40px; margin-bottom:10px;"></a>
+    // ตรวจสอบว่า query สำเร็จหรือไม่
+    if ($result) {
+        // ดึงข้อมูลจากผลลัพธ์ query
+        $row = mysqli_fetch_assoc($result);
+        $sumorder = $row['total_orders'];
+        $sumprice = $row['total_price'];
+    } else {
+        // หาก query ไม่สำเร็จ
+        // สามารถแสดงข้อความผิดพลาดได้ตามต้องการ
+        echo "Error: " . mysqli_error($conn);
+    }
+}
+?>
 
-            <form action="" method="GET" id="reportForm">
-                <div class="d-flex">
-                    <div style="flex:1; padding: 10px;">
-                        <label style="font-weight: 600; font-size: 32px; margin-left: 50%;">ตรวจสอบข้อมูล</label><br><br>
-                        <label style="font-weight: 600; font-size: 24px; margin-left: 56%;">ช่วงเวลา</label><br>
+<!--  -->
+<div id="report" style="display: none;">
+    <a href=""><img src="images/leftarrow.png" style="width:40px;height:40px; margin-bottom:10px; margin-left : -5%; margin-top: 3%;"></a>
 
+    <form action="" method="GET" id="reportForm">
+        <div class="d-flex">
+            <div style="flex:1; padding: 10px; margin-left: -25%;">
+                <label style="font-weight: 600; font-size: 32px; margin-left: 55%;">ตรวจสอบข้อมูล</label><br><br>
+                <label style="font-weight: 600; font-size: 24px; margin-left: 61%;">ช่วงเวลา</label><br>
+
+                <!--  -->
+                <div class="col-12" style=" margin-top: 3%;">
+                    <div class="row">
                         <!--  -->
-                        <div class="col-12" style="margin-left: 35%; margin-top: 3%;">
-                            <div class="row">
-                                <!--  -->
-                                <p><select id="start_year" name="start_year" style="margin-bottom: 1%; width: 150px; height:40px; margin-left: 17.5%;">
-                                        <option value="">เลือกปี</option>
-                                        <!-- JavaScript จะเพิ่มตัวเลือกปีที่เป็นตัวเลือกทั้งหมด -->
-                                    </select></p>
-                                <!--  -->
-                                <div class="col-6">
-                                    <select class="report-select" id="start_month" name="start_month">
-                                        <option value="">เดือนเริ่มต้น</option>
-                                        <option value="1">มกราคม</option>
-                                        <option value="2">กุมภาพันธ์</option>
-                                        <option value="3">มีนาคม</option>
-                                        <option value="4">เมษายน</option>
-                                        <option value="5">พฤษภาคม</option>
-                                        <option value="6">มิถุนายน</option>
-                                        <option value="7">กรกฎาคม</option>
-                                        <option value="8">สิงหาคม</option>
-                                        <option value="9">กันยายน</option>
-                                        <option value="10">ตุลาคม</option>
-                                        <option value="11">พฤศจิกายน</option>
-                                        <option value="12">ธันวาคม</option>
-                                    </select>
+                       
+                        <!--  -->
+                        <div class="col-6" style="margin-left: 40%;">
+                        <input type="date" id="start_date" name="start_date" style="margin-bottom: 1%; width: 150px; height:40px; margin-left: 2%;">
+                            
+                            <!--  -->
 
-                                    <!--  -->
-
-                                    <div class="message-box1">
-                                        <p>จำนวนออเดอร์ทั้งหมด</p>
-                                        <?php if (isset($sumorder)) : ?>
-                                            <p><b>จำนวน <?= $sumorder; ?> ออเดอร์</b></p>
-                                        <?php else : ?>
-                                            <p><b>ไม่พบข้อมูล</b></p>
-                                        <?php endif; ?>
-                                    </div>
-                                    <!--  -->
-                                </div>
-                                <!--  -->
-
-                                <div class="col-6" style="margin-left: -120px;">
-                                    <select class="report-select" id="end_month" name="end_month">
-                                        <option value="">เดือนสิ้นสุด</option>
-                                        <option value="1">มกราคม</option>
-                                        <option value="2">กุมภาพันธ์</option>
-                                        <option value="3">มีนาคม</option>
-                                        <option value="4">เมษายน</option>
-                                        <option value="5">พฤษภาคม</option>
-                                        <option value="6">มิถุนายน</option>
-                                        <option value="7">กรกฎาคม</option>
-                                        <option value="8">สิงหาคม</option>
-                                        <option value="9">กันยายน</option>
-                                        <option value="10">ตุลาคม</option>
-                                        <option value="11">พฤศจิกายน</option>
-                                        <option value="12">ธันวาคม</option>
-                                    </select>
-
-                                    <!--  -->
-                                    <div class="message-box2">
-                                        <p>รายได้ทั้งหมด</p>
-                                        <?php if (isset($sumprice)) : ?>
-                                            <p><b>จำนวน <?= $sumprice; ?> บาท</b></p>
-                                        <?php else : ?>
-                                            <p><b>ไม่พบข้อมูล</b></p>
-                                        <?php endif; ?>
-                                    </div>
-                                    <!--  -->
-
-                                </div>
-                                <!--  -->
+                            <div class="message-box1">
+                                <p>จำนวนออเดอร์ทั้งหมด</p>
+                                <?php if (isset($sumorder)) : ?>
+                                    <p><b>จำนวน <?= $sumorder; ?> ออเดอร์</b></p>
+                                <?php else : ?>
+                                    <p><b>ไม่พบข้อมูล</b></p>
+                                <?php endif; ?>
                             </div>
                             <!--  -->
-                            <script>
-                                // ดึงปีปัจจุบัน
-                                var currentYear = new Date().getFullYear();
+                        </div>
+                        <!--  -->
 
-                                // เพิ่มตัวเลือกปีในเลือกเดือนเริ่มต้น
-                                var startYearSelect = document.getElementById('start_year');
-                                for (var i = currentYear - 10; i <= currentYear; i++) {
-                                    var option = document.createElement('option');
-                                    option.value = i;
-                                    option.textContent = i;
-                                    startYearSelect.appendChild(option);
-                                }
-
-                                // ตั้งค่าปีปัจจุบันเป็น selected option
-                                var currentYearOption = document.querySelector('select option[value="' + currentYear + '"]');
-                                currentYearOption.selected = true;
-
-                                document.getElementById("reportForm").addEventListener("submit", function(event) {
-                                    // ยกเลิกการดำเนินการของฟอร์ม
-                                    event.preventDefault();
-                                    // ดำเนินการส่งข้อมูลฟอร์มไปยัง URL ที่ต้องการ
-                                    // ในที่นี้คือ URL ของหน้า partner_home
-                                    window.location.href = "?page=partner_home&" + this.serialize();
-                                });
-
-                                // เพิ่ม method serialize() ใน Object prototype ของ HTMLFormElement
-                                HTMLFormElement.prototype.serialize = function() {
-                                    // สร้าง Array สำหรับเก็บค่าของ input elements
-                                    var fields = [];
-                                    // วนลูปผ่าน input elements ทั้งหมดในฟอร์ม
-                                    for (var i = 0; i < this.elements.length; i++) {
-                                        var field = this.elements[i];
-                                        // ตรวจสอบว่า input element เป็น input ที่มีชื่อและค่า (ไม่ใช่ button)
-                                        if (field.name && !field.disabled && field.type !== 'button') {
-                                            // ใส่ข้อมูลในรูปแบบ key-value pair ใน Array
-                                            fields.push(field.name + '=' + encodeURIComponent(field.value));
-                                        }
-                                    }
-                                    // รวมข้อมูลใน Array ให้เป็นข้อความแบบ query string
-                                    return fields.join('&');
-                                };
-                            </script>
+                        <div class="col-6" style="margin-left: 73%; margin-top: -19.8%;">
+                            <!--  -->
+                            <input type="date" id="end_date" name="end_date" style="width: 150px; height:40px;">
+                            <div class="message-box2" style="margin-left: 0%;">
+                                <p>รายได้ทั้งหมด</p>
+                                <?php if (isset($sumprice)) : ?>
+                                    <p><b>จำนวน <?= $sumprice; ?> บาท</b></p>
+                                <?php else : ?>
+                                    <p><b>ไม่พบข้อมูล</b></p>
+                                <?php endif; ?>
+                            </div>
                             <!--  -->
                         </div>
-                        <button type="submit" class="submit2" name="report">ค้นหา</button>
-                        <!-- <button type="button" class="submit1" onclick="search()">ค้นหา</button>
-                        <input name="button" type="submit" class="submit1" value="ค้นหา"> -->
+                        <!--  -->
                     </div>
-                </div>
-            </form>
+                    <!--  -->
+                    <script>
+                        document.getElementById("reportForm").addEventListener("submit", function(event) {
+                            // ยกเลิกการดำเนินการของฟอร์ม
+                            event.preventDefault();
+                            // ดำเนินการส่งข้อมูลฟอร์มไปยัง URL ที่ต้องการ
+                            // ในที่นี้คือ URL ของหน้า partner_home
+                            window.location.href = "?page=partner_home&" + this.serialize();
+                        });
 
-            <!--  -->
+                        // เพิ่ม method serialize() ใน Object prototype ของ HTMLFormElement
+                        HTMLFormElement.prototype.serialize = function() {
+                            // สร้าง Array สำหรับเก็บค่าของ input elements
+                            var fields = [];
+                            // วนลูปผ่าน input elements ทั้งหมดในฟอร์ม
+                            for (var i = 0; i < this.elements.length; i++) {
+                                var field = this.elements[i];
+                                // ตรวจสอบว่า input element เป็น input ที่มีชื่อและค่า (ไม่ใช่ button)
+                                if (field.name && !field.disabled && field.type !== 'button') {
+                                    // ใส่ข้อมูลในรูปแบบ key-value pair ใน Array
+                                    fields.push(field.name + '=' + encodeURIComponent(field.value));
+                                }
+                            }
+                            // รวมข้อมูลใน Array ให้เป็นข้อความแบบ query string
+                            return fields.join('&');
+                        };
+                    </script>
+                    <!--  -->
+                    <button type="submit" class="submit2" name="report" style="margin-left: 58%; margin-top: 4%; margin-bottom: 6%;">ค้นหา</button>
+                </div>
+
+            </div>
         </div>
+    </form>
+
+    <!--  -->
+</div>
+
         <!-- end report -->
         <style>
             /* เพิ่มความโค้งของขอบ */
@@ -1238,6 +1193,13 @@ $mk_name = $_SESSION['bagdrop_member_name'];
 
 <!-- css -->
 <style>
+    /* search */
+    #search{
+        margin-top: 2%;
+    }
+    /* #all-order{
+        margin-right: -20%;
+    } */
     /* nav left */
 
     /*  */

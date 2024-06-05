@@ -7,33 +7,6 @@ if ($isSubmitted) {
     $password = $_POST['password'];
     $email = $_POST['email'];
 
-    // เพิ่มการเข้าสู่ระบบโดยอิงข้อมูลจากตาราง market
-    $sql_market = "SELECT * FROM market 
-    WHERE mk_email='$email'";
-    $result_market = mysqli_query($conn, $sql_market);
-    $fetch_market = mysqli_fetch_assoc($result_market); // รับค่าจากการเช็คในตาราง market
-
-    if ($fetch_market && password_verify($password, $fetch_market['mk_password'])) {
-        // เข้าสู่ระบบสำเร็จ
-        $_SESSION['bagdrop_member_id'] = $fetch_market['mk_id'];
-        $_SESSION['bagdrop_member_name'] = $fetch_market['mk_name'];
-
-        $_SESSION['bagdrop_member_fname1'] = $fetch_market['mk_fname1'];
-        $_SESSION['bagdrop_member_lname1'] = $fetch_market['mk_lname1'];
-        $_SESSION['bagdrop_member_phone1'] = $fetch_market['mk_phone1'];
-
-        $_SESSION['bagdrop_member_fname2'] = $fetch_market['mk_fname2'];
-        $_SESSION['bagdrop_member_lname2'] = $fetch_market['mk_lname2'];
-        $_SESSION['bagdrop_member_phone2'] = $fetch_market['mk_phone2'];
-
-        $_SESSION['bagdrop_member_id_email'] = $fetch_market['mk_email'];
-
-        $_SESSION['bagdrop_member_id_type'] = $fetch_market['urole'];
-
-        // ส่งไปยังหน้า partner_home หากเข้าสู่ระบบสำเร็จ
-        echo "<script>window.location='?page=partner_home';</script>";
-        exit();
-    } else {
         // ไม่พบข้อมูลในตาราง market หรือรหัสผ่านไม่ถูกต้อง
         // ทำการตรวจสอบจากตาราง register ต่อ
         $sql_register = "SELECT * FROM register WHERE m_email='$email'";
@@ -61,7 +34,7 @@ if ($isSubmitted) {
             exit();
         }
     }
-}
+
 
 
 ?>
@@ -92,6 +65,12 @@ if ($isSubmitted) {
                 <button type="submit" name="login" required>เข้าสู่ระบบ</button>
                 <br>
                 <br>
+             
+                <p>
+                <a class="forgot-password" href="?page=login_partner">เข้าสู่ระบบพาร์ทเนอร์?</a>  ,
+                     <a class="forgot-password" href="?page=login_admin">เข้าสู่ระบบแอดมิน?</a>
+            </p>
+
                 <a class="forgot-password" href="?page=newpass">ลืมรหัสผ่านใช่หรือไม่?</a>
                 <p class="signup" onclick="showPopup()">ยังไม่ได้เป็นสมาชิก? <a href="#">Sign up</a></p>
             </center>
